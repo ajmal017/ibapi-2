@@ -1,0 +1,41 @@
+version: '3'
+services:
+  postgres_db:
+    image: postgres
+  redis:
+    image: redis
+    container_name: redis
+    expose:
+      - 6379
+  celery-beat:
+    build: .
+    command: celery -A MasterDataBase beat -l info --pidfile=/tmp/celeryd.pid
+    volumes:
+      - .:/code
+    depends_on:
+      - postgres_db
+      - redis
+  celery-worker:
+    build: .
+    command: celery -A MasterDataBase worker -l info
+    depends_on:
+      - postgres_db
+      - redis
+    volumes:
+      - .:/code
+  flower:  
+    image: mher/flower
+    command: ["flower", "--broker=redis://redis:6379/0", "--port=8888"]  
+    ports:  
+      - 8888:8888  
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate  && python manage.py runserver  0.0.0.0:8000 "
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
+      - redis
+  
