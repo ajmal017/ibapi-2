@@ -2,7 +2,7 @@ import os, glob
 import pandas as pd
 
 
-class Handler():
+class DataHandler():
     def __init__(self):
         self.final_df = pd.DataFrame()
     
@@ -65,13 +65,14 @@ class Handler():
     
     
 
-# handler = Handler()
-# handler.full_df(ticker='INTC')
-# handler.final_df.to_csv('/data/test.csv')
+# handler = DataHandler()
+# # handler.full_df(ticker='INTC')
+# handler.sample_df(ticker="INTC")
+# handler.final_df.to_csv('/data/sample/INTC/df.csv')
 
 # print(handler.final_df)
 
-dfs = pd.read_csv('/data/full/INTC/df.csv', chunksize=390)
+dfs = pd.read_csv('/data/sample/INTC/df.csv', chunksize=390)
 for df in dfs:
     print(df.__str__())
 
