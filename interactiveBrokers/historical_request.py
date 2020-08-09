@@ -54,10 +54,6 @@ class HistoricalIBapi(EWrapper, EClient):
             if date.weekday() < 5:  # only send request for weekdays
                 for ticker in self.contracts:
                     if date > self.contract_added_date[ticker]:
-                        # check if file exists and if not create it
-                        # print(ticker, date.year, date.month, date.day)
-                        # print('/data/{}/{}/{:02d}/{:02d}/df.csv'.format(ticker, date.year, date.month, date.day))
-                        # print(os.path.exists('/data/{}/{}/{:02d}/{:02d}/df.csv'.format(ticker, date.year, date.month, date.day)))
                         if  os.path.exists('/data/{}/{}/{:02d}/{:02d}/df.csv'.format(ticker, date.year, date.month, date.day)) == False:
                             self.id = self.__reqid()
                             print('reqid ', self.id,' contract ticker ', ticker)
@@ -132,7 +128,7 @@ class HistoricalIBapi(EWrapper, EClient):
     def __generate_dates(self, month, year, day):
         date_list = []  # list of datetime objects for end of each day
         current_datetime = datetime.datetime.today().replace(
-            hour=0, second=0, microsecond=0)
+            hour=0, minute=0 ,second=0, microsecond=0)
         request_from_date = datetime.datetime(year, month, day)
         timedelta_request_range = current_datetime - request_from_date
         for day in range(timedelta_request_range.days):
@@ -157,7 +153,6 @@ class HistoricalIBapi(EWrapper, EClient):
             os.makedirs(path)
         except OSError:
             print("Creation of the directory failed")
-            print(path)
             return path
         else:
             print("Successfully created the directory %s " % path)
