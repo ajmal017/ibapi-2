@@ -7,7 +7,7 @@ from ibapi.wrapper import EWrapper
 from ibapi.contract import Contract
 
 
-import pandas as pd
+#import pandas as pd
 import pytz
 
 
@@ -47,7 +47,6 @@ class LiveIBapi(EWrapper, EClient):
                 self.set_close_date(reqId=reqId, item=price)
                 print(self.live_bars)
                 self.update_live_bars(self.ticker_dict[reqId])
-                
         else:
             self.make_bar(reqId=reqId,tickType=tickType, item=price)
 
@@ -122,7 +121,7 @@ class LiveIBapi(EWrapper, EClient):
 
 
 
-r = LLive_IBapi()
+r = LiveIBapi()
 #r.historical_data_request(ticker='BTC',month=7,year=2020,day=10)
 r.subscribe_live()
 

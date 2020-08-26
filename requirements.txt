@@ -1,2 +1,2 @@
 Django
-celery
+psycopg2

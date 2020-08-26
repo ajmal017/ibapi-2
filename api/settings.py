@@ -25,7 +25,7 @@ SECRET_KEY = 'c9+q$p$=*v4_o(&pu-9*hz6%hh+(v@*@#&se+l!*wdlb164fhf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -73,12 +73,36 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+if os.getenv('isonline')=='isonline':
+    DATABASES = {
+        'default': {
+            'ENGINE':'django.db.backends.postgresql',
+            'HOST':'localhost',
+            'USER':os.getenv('db_user'),
+            'PASSWORD':os.getenv('db_password'),
+            'NAME':os.getenv('db_name'),
+            'PORT':5432,
+        }
     }
-}
+else:
+    print('testtting')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'HOST': 'postgres_db',
+            'PORT': 5432,
+        }
+    }
+
 
 
 # Password validation
